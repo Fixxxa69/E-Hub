@@ -1,41 +1,40 @@
 import React from 'react';
 
-export default function Leaderboard() {
-  const topPlayers = [
-    { rank: 1, name: 'Alpha_King', kills: 142, earnings: '₹3,400', badge: '🥇' },
-    { rank: 2, name: 'Viper_FF', kills: 128, earnings: '₹2,850', badge: '🥈' },
-    { rank: 3, name: 'Shadow_Ninja', kills: 115, earnings: '₹2,100', badge: '🥉' },
-    { rank: 4, name: 'Headshot_Pro', kills: 98, earnings: '₹1,750', badge: '4' },
-    { rank: 5, name: 'Dark_Knight', kills: 84, earnings: '₹1,200', badge: '5' },
-    { rank: 6, name: 'RedBull_Esports', kills: 79, earnings: '₹950', badge: '6' }
-  ];
-
+export default function Leaderboard({ leaderboardData = [] }) {
   return (
     <div className="p-4 space-y-4 max-w-md mx-auto">
-      <div className="bg-gradient-to-r from-amber-600 to-yellow-500 p-4 rounded-2xl text-black font-extrabold text-center space-y-1 shadow-lg">
-        <h2 className="text-lg">🏆 Weekly Esports Leaderboard</h2>
-        <p className="text-xs opacity-90">Top players win extra tournament entry passes every Sunday!</p>
+      <div className="text-center space-y-1">
+        <h2 className="text-sm font-extrabold text-yellow-400 tracking-wider uppercase">Tournament Leaderboard</h2>
+        <p className="text-[10px] text-gray-400">Official player rankings based on real match victories</p>
       </div>
 
-      <div className="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden">
-        <div className="grid grid-cols-4 bg-gray-950 p-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider text-center border-b border-gray-800">
-          <span>Rank</span>
-          <span>Player</span>
-          <span>Kills</span>
-          <span>Winnings</span>
+      {leaderboardData.length === 0 ? (
+        <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800 text-center space-y-2">
+          <span className="text-3xl">🏆</span>
+          <p className="text-xs font-bold text-gray-300">No Ranked Players Yet</p>
+          <p className="text-[10px] text-gray-500">Rankings will update live as registered players complete official tournament matches.</p>
         </div>
-
-        <div className="divide-y divide-gray-800/60">
-          {topPlayers.map((player) => (
-            <div key={player.rank} className="grid grid-cols-4 p-3.5 text-xs items-center text-center font-semibold">
-              <span className="text-base">{player.badge}</span>
-              <span className="text-white font-bold truncate text-left">{player.name}</span>
-              <span className="text-yellow-400">{player.kills} 🎯</span>
-              <span className="text-green-400 font-bold">{player.earnings}</span>
+      ) : (
+        <div className="space-y-2">
+          {leaderboardData.map((player, index) => (
+            <div 
+              key={index}
+              className="bg-gray-900 p-3 rounded-xl border border-gray-800 flex justify-between items-center"
+            >
+              <div className="flex items-center space-x-3">
+                <span className="text-xs font-bold text-yellow-400 w-5">#{index + 1}</span>
+                <div>
+                  <h4 className="text-xs font-bold text-white">{player.ign}</h4>
+                  <p className="text-[10px] text-gray-400">{player.game}</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="text-xs font-bold text-green-400">{player.points} Points</span>
+              </div>
             </div>
           ))}
         </div>
-      </div>
+      )}
     </div>
   );
 }
